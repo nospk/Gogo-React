@@ -1,0 +1,26 @@
+.page-container{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+}
+.page-active{
+    color: #000000;
+    background-color: #ffe600;
+    font-weight: bold;
+}
+.page-item{
+  padding: 10px;
+  height: 30px;
+  width: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid #b5b5b570;
+}
+.display-block{
+  display: block;
+}

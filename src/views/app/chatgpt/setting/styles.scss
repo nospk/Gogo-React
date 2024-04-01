@@ -1,0 +1,78 @@
+.chatgpt-button-add{
+	padding: 10px;
+	background:rgb(238,101,28);
+	color: #fff;
+	border-radius: 10px;
+	font-weight: bold;
+	cursor: pointer;
+	&:hover{
+	  background: rgba(238, 101, 28, 0.75);
+	}
+}
+.chatgpt-account-list {
+	display: flex;
+	flex-direction: column;
+	padding: 10px 0;
+	gap: 10px;
+	margin-top: 10px;
+
+  .chatgpt-account-item {
+	padding: 10px;
+	border: 1px solid #dddada9c;
+	border-radius: 10px;
+	cursor: pointer;
+	font-weight: bold;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	&.active {
+	  background-color: #0089ff;
+	}
+	&:hover > .actions {
+	  display: flex;
+	}
+	.actions {
+	  display: none;
+	  gap: 10px;
+	  svg{
+		&:hover{
+		  color: red;
+		}
+	  }
+	}
+  }
+}
+.account-info{
+  .form{
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+	span{
+	  font-weight: bold;
+	}
+	input{
+	  width: 500px;
+	  padding: 10px;
+	}
+	.token{
+	  width: 500px;
+	}
+  }
+}
+
+.chatgpt-button-save{
+	padding: 10px;
+	background: rgb(124, 10, 245);
+	color: #fff;
+	border-radius: 10px;
+	font-weight: bold;
+	cursor: pointer;
+	display: block;
+	width: 80px;
+	text-align: center;
+	margin-top: 10px;
+
+	&:hover{
+	  	background: rgba(116, 32, 213, 0.75);
+	}
+}

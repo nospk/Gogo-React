@@ -1,0 +1,34 @@
+.list {
+	background: white;
+	padding: 10px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	.item {
+		.title {
+			margin: 0;
+			padding-bottom: 5px;
+			border-bottom: 1px solid #616161;
+			&:hover {
+				color: red;
+				cursor: pointer;
+			}
+		}
+
+		.logs {
+			display: none;
+			max-height: 300px;
+			overflow-y: auto;
+
+			p {
+				margin: 0;
+			}
+
+			&.open {
+				display: block;
+			}
+		}
+	}
+}

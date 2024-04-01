@@ -1,0 +1,14 @@
+.Table__pageButton{
+  background: #a0bcfc;
+  margin: 0 5px;
+  padding: 5px;
+  min-width: 30px;
+  min-height: 30px;
+  color: white;
+
+  border-radius: 20px;
+  border: none;
+  &.Table__pageButton--active{
+    background: #0072ff;
+  }
+}
