@@ -17,7 +17,7 @@
     "@glidejs/glide": "^3.3.0",
     "@types/react-paginate": "^7.1.1",
     "availity-reactstrap-validation": "^2.0.4",
-    "axios": "^0.18.0",
+    "axios": "^0.28.0",
     "chart.js": "^2.7.2",
     "classnames": "2.2.6",
     "formik": "^1.5.1",
