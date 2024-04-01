@@ -7,8 +7,8 @@ import GHNService, {tracking} from "../../../../services/GHNService";
 import {NotificationManager} from "../../../../components/common/react-notifications";
 import OrderService, {getStatus} from "../../../../services/OrderService";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
-
-const OrderListItem = ({item, handleCheckChange,changeStatus, isSelected, onClick,history,dispatch,openTrackingOrder,trackingData,openTrackingGHN,ghnData}) => {
+import Switch from "rc-switch";
+const OrderListItem = ({item, handleCheckChange,changeStatus, isSelected, onClick,history,dispatch,openTrackingOrder,trackingData,openTrackingGHN,ghnData,reload}) => {
     const [dataTemp,setDataTemp] = useState(null);
     const [enableEdit,setEnableEdit] = useState(false);
     const getColor = (status) => {
@@ -173,14 +173,29 @@ const OrderListItem = ({item, handleCheckChange,changeStatus, isSelected, onClic
     const gotoDetailtTrackingGHN = (orderCode)=>{
         window.open("https://donhang.ghn.vn/?order_code="+orderCode, '_blank').focus()
     }
+    const onChangeValueSwitch = (value, field, index) => {
+        item.tracking[index].received = value;
+        OrderService.updateTracking(item.tracking).then((results)=>{
+            reload()
+            NotificationManager.success("Cập nhật thành công","Thông báo",2000)
+        })
+    }
     const renderTracking = ()=>{
         return getTracking().map((itemTracking,index)=>{
             //console.log(itemTracking)
             return(
-                <div key={index} onClick={()=>{gotoDetailtTracking(itemTracking.orderCode)}} style={{cursor:"pointer"}} className={"p-2 shadow-sm rounded-sm font-weight-bold "+getColorTracking(itemTracking.statusZh,itemTracking.received)}>
-                    <p className="mb-0 text-center ">{itemTracking.name}</p>
+                <div key={index} style={{cursor:"pointer"}} className={"p-2 shadow-sm h-full rounded-sm font-weight-bold "+getColorTracking(itemTracking.statusZh,itemTracking.received)}>
+                    <p className="mb-0 text-center " onClick={()=>{gotoDetailtTracking(itemTracking.orderCode)}}>{itemTracking.name}</p>
                     {itemTracking.receiptDate? <p className="mb-0 text-center ">{moment(itemTracking.receiptDate).format("DD/MM/YYYY").toString()}</p>:''}
                     <p>{itemTracking.landingCode}</p>
+                    <div></div>
+                    <Switch
+                                        className="custom-switch custom-switch-secondary mx-auto"
+                                        checked={itemTracking.received}
+                                        onChange={switchCheckedSecondary => {
+                                            onChangeValueSwitch(switchCheckedSecondary, 'received', index)
+                                        }}
+                                    />
                 </div>
             )
         })
@@ -471,14 +486,14 @@ const OrderListItem = ({item, handleCheckChange,changeStatus, isSelected, onClic
                         </Row>
                         {
                             getTracking().length>0?
-                                <div className="d-flex mt-3 flex-wrap align-items-center" style={{gap:10}}>
+                                <div className="d-flex mt-3 flex-wrap align-items-stretch align-items-center" style={{gap:10}}>
                                     <span className="font-weight-bold text-uppercase">TQ</span>
                                     {renderTracking()}
                                 </div>:''
                         }
                         {
                             getTrackingGHN().length>0?
-                                <div className="d-flex mt-3 flex-wrap align-items-center" style={{gap:10}}>
+                                <div className="d-flex mt-3 flex-wrap align-items-stretch align-items-center" style={{gap:10}}>
                                     <span className="font-weight-bold text-uppercase">GHN</span>
                                     {renderTrackingGHN()}
                                 </div>:''

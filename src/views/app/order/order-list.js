@@ -338,6 +338,10 @@ class OrdersView extends Component {
             }
         });
     }
+    reload(){
+        let request = {...this.state.dataSearch,keyword:this.searchValue ? this.searchValue : "",page:this.page ? this.page : 0,pageSize:this.state.pageSize};
+        this.props.findAll(request);
+    }
     render() {
         const {list} = this.props;
         const { messages } = this.props.intl;
@@ -489,6 +493,7 @@ class OrdersView extends Component {
                                         openTrackingOrder={this.openTrackingOrder.bind(this)}
                                         openTrackingGHN={this.openTrackingGHN.bind(this)}
                                         dispatch={this.props.updateQuickview}
+                                        reload={this.reload.bind(this)}
                                     />
                                 )
                             })}
