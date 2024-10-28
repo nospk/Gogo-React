@@ -20,14 +20,14 @@ import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import {injectIntl} from "react-intl";
 import {Colxx} from "../../../components/common/CustomBootstrap";
 import {findAll as findAllCategory} from "../../../redux/category/actions";
-import {deleteById, findAll, findById,updateFlag} from "../../../redux/product/actions";
+import {deleteById, findAll, findById,updateFlag, updateKeyWord} from "../../../redux/product/actions";
 import {connect} from "react-redux";
 import {DOMAIN} from "../../../services/APIURL";
 import {Link} from "react-router-dom";
 import validator from "validator/es";
 import ProductService from "../../../services/ProductService";
 import ReactTablePagination from "../../../components/ReactTablePagination";
-
+import EditableKeyword from './EditableKeyword ';
 class ProductsView extends React.Component{
     constructor(props) {
         super(props);
@@ -41,11 +41,15 @@ class ProductsView extends React.Component{
                 status:true,
                 value:0
             },
-        }
+            editingKeywordId: null,
+            currentKeyword: "", 
+        };
+        this.currentKeywordRef = React.createRef("");
     }
     componentDidMount() {
         this.props.findAllCategory();
         this.props.findAll({page:this.state.page,pageSize:this.state.pageSize})
+        console.log(this.props)
     }
     componentWillUnmount() {
 
@@ -128,6 +132,32 @@ class ProductsView extends React.Component{
                 Header: "Tên TQ",
                 accessor: "nameZh",
                 Cell: props => (<a href={props.original.link} target="_blank"><p className="list-item-heading">{props.value}</p></a>),
+            },
+            {
+                Header: "Từ khóa chính",
+                accessor: "keyword",
+                Cell: props => {
+                    const isEditing = this.state.editingKeywordId === props.original.id;
+                    
+                    return (
+                        <div>
+                            {isEditing ? (
+                                <EditableKeyword
+                                    initialValue={props.value}
+                                    onSave={(value) => this.saveKeyword(props.original.id, value)}
+                                    onCancel={() => this.cancelEdit()}
+                                />
+                            ) : (
+                                <p
+                                    className="list-item-heading"
+                                    onClick={() => this.startEditingKeyword(props.original)}
+                                >
+                                    {props.value}
+                                </p>
+                            )}
+                        </div>
+                    );
+                },
                 width: 300
             },
             {
@@ -163,6 +193,29 @@ class ProductsView extends React.Component{
             },
         ];
     }
+    startEditingKeyword = (product) => {
+        this.setState({
+            editingKeywordId: product.id,
+            currentKeyword: product.keyword, // Cập nhật state cho currentKeyword
+        });
+    };
+    
+    // Hủy chỉnh sửa
+    cancelEdit() {
+        this.setState({
+            editingKeywordId: null,
+            currentKeyword: ""
+        });
+    }
+    handleKeywordChange = (value) => {
+        this.setState({ currentKeyword: value });
+    };
+    // Lưu từ khóa đã chỉnh sửa
+    saveKeyword(productId, keyword) {
+        this.props.updateKeyWord({ id: productId, keyword });
+        this.setState({ editingKeywordId: null });
+    }
+
     toggleViewSearch(){
         this.setState({
             viewSearch:!this.state.viewSearch
@@ -293,7 +346,7 @@ const mapStateToProps = ({category,productRedux}) => {
     const {product,loadding,list,totalPages} = productRedux;
     return {categoryList,product,loadding,list,totalPages}
 };
-const mapActionsToProps = {findAllCategory,findAll,findById,deleteById,updateFlag};
+const mapActionsToProps = {findAllCategory,findAll,findById,deleteById,updateFlag, updateKeyWord};
 export default injectIntl(
     connect(mapStateToProps,mapActionsToProps)(ProductsView)
 )

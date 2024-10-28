@@ -6,7 +6,8 @@ import {
     PRODUCT_FINDALL,
     PRODUCT_FINDBYID,
     PRODUCT_FINDPICKER, PRODUCT_SEARCHPICKER,
-    PRODUCT_UPDATETOPFLAG,PRODUCT_UPDATETOPFLAG_ERROR, PRODUCT_UPDATETOPFLAG_SUCCESS
+    PRODUCT_UPDATETOPFLAG,PRODUCT_UPDATETOPFLAG_ERROR, PRODUCT_UPDATETOPFLAG_SUCCESS,
+    PRODUCT_UPDATEKEYWORD
 } from "../actions";
 import ProductService from "../../services/ProductService";
 import {findByIdSuccess,
@@ -15,7 +16,8 @@ import {findByIdSuccess,
         createError,
         findAllSuccess,
         deleteByIdSuccess,
-        updateFlagSuccess,updateFlagError
+        updateFlagSuccess,updateFlagError,
+        updateKeyWordSucess
 } from './actions'
 
 function *createUpdate({payload}){
@@ -52,6 +54,12 @@ function *deleteById({payload}){
         yield put(deleteByIdSuccess(payload.params))
     }
 }
+function *updateProductKeyWord({payload}){
+    const responses = yield call(ProductService.updateKeyWord,payload.params);
+    if (responses.success){
+        yield put(updateKeyWordSucess(payload.params))
+    }
+}
 function *findPicker({payload}){
     const responses = yield call(ProductService.findForProductPicker,payload.params);
     if (responses.success){
@@ -70,6 +78,9 @@ function *updateTopFlag({payload}) {
 
 function *watchCreateUpdate(){
     yield takeEvery(PRODUCT_CREATE_UPDATE,createUpdate)
+}
+function *watchUpdateKeyWord(){
+    yield takeEvery(PRODUCT_UPDATEKEYWORD,updateProductKeyWord)
 }
 function *watchFindAll(){
     yield takeEvery(PRODUCT_FINDALL,findAll)
@@ -92,6 +103,7 @@ function *watchUpdateTopFlag() {
 export default function* rootSaga() {
     yield all([
         fork(watchCreateUpdate),
+        fork(watchUpdateKeyWord),
         fork(watchFindAll),
         fork(watchFindById),
         fork(watchDeleteById),

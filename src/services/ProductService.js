@@ -3,7 +3,8 @@ import {
     PRODUCT_CREATE, PRODUCT_DELETE, PRODUCT_DELETE_BY_CATEGORY,
     PRODUCT_FINDALL,
     PRODUCT_FINDBYID,
-    PRODUCT_FINDFORPICKER, PRODUCT_GENERATE_IMAGE_ZIP, PRODUCT_IMPORT_EXCEL, PRODUCT_UPDATETOPFLAG
+    PRODUCT_FINDFORPICKER, PRODUCT_GENERATE_IMAGE_ZIP, PRODUCT_IMPORT_EXCEL, PRODUCT_UPDATETOPFLAG,
+    PRODUCT_UPDATEKEYWORD
 } from "./APIURL";
 
 
@@ -72,6 +73,11 @@ const updateFlag = async ({id,flag})=>{
     const response = fetch(PRODUCT_UPDATETOPFLAG+"?id="+id+"&flag="+flag,{method:"GET",headers:header}).then(value => {return value.json()}).catch(reason => reason);
     return response;
 }
+const updateKeyWord = async ({id,keyword})=>{
+    const header = {"Authorization": localStorage.getItem("user_id")}
+    const response = fetch(PRODUCT_UPDATEKEYWORD+"?id="+id+"&keyword="+keyword,{method:"GET",headers:header}).then(value => {return value.json()}).catch(reason => reason);
+    return response;
+}
 export default {
     create:create,
     findAll:findAll,
@@ -82,4 +88,5 @@ export default {
     generateImageZip:generateImageZip,
     deleteByCat:deleteByCat,
     updateFlag:updateFlag,
+    updateKeyWord:updateKeyWord
 }

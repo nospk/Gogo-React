@@ -94,6 +94,7 @@ class ProductCreateView extends React.Component{
                 if (results.success){
 
                     const categoryDefault = results.data.categories.filter((category)=>category.id===results.data.categoryDefault);
+                    console.log(results.data)
                     this.setState({
                         product:{
                             ...results.data,

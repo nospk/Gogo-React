@@ -13,7 +13,8 @@ import {
     PRODUCT_FINDBYID_SUCCESS,
     PRODUCT_FINDPICKER, PRODUCT_FINDPICKER_ERROR, PRODUCT_FINDPICKER_SUCCESS,
     PRODUCT_REMOVE_MESSAGE, PRODUCT_SEARCHPICKER,
-    PRODUCT_UPDATETOPFLAG_ERROR,PRODUCT_UPDATETOPFLAG_SUCCESS,PRODUCT_UPDATETOPFLAG
+    PRODUCT_UPDATETOPFLAG_ERROR,PRODUCT_UPDATETOPFLAG_SUCCESS,PRODUCT_UPDATETOPFLAG,
+    PRODUCT_UPDATEKEYWORD, PRODUCT_UPDATEKEYWORD_SUCCESS,
 } from "../actions";
 export const updateFlag = (params) => ({
     type: PRODUCT_UPDATETOPFLAG,
@@ -26,6 +27,14 @@ export const updateFlagSuccess = (params) => ({
 export const updateFlagError = (params) => ({
     type: PRODUCT_UPDATETOPFLAG_ERROR,
     payload: { params }
+});
+export const updateKeyWord = (params) => ({
+    type: PRODUCT_UPDATEKEYWORD,
+    payload: {params}
+});
+export const updateKeyWordSucess = (params) => ({
+    type: PRODUCT_UPDATEKEYWORD_SUCCESS,
+    payload: {params}
 });
 export const searchPicker = (params,history) => ({
     type: PRODUCT_SEARCHPICKER,

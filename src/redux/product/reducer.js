@@ -17,6 +17,7 @@ import {
     PRODUCT_REMOVE_MESSAGE,
     PRODUCT_UPDATETOPFLAG_SUCCESS,
     PRODUCT_UPDATETOPFLAG_ERROR,
+    PRODUCT_UPDATEKEYWORD_SUCCESS,
 } from "../actions";
 
 
@@ -43,7 +44,8 @@ const INIT_STATE = {
         condition3:"",
         condition4:"",
         categoryDefault:"",
-        categories:[]
+        categories:[],
+        keyword:""
     },
     loading: true,
     error: '',
@@ -86,6 +88,14 @@ export default (state = INIT_STATE, action) => {
             return { ...state,list:updated, error: ''};
         case PRODUCT_UPDATETOPFLAG_ERROR:
             return { ...state, error: ''};
+        case PRODUCT_UPDATEKEYWORD_SUCCESS:
+            const updateState = state.list.map((res) => {
+                if (res.id === action.payload.params.id) {
+                    res.keyword = action.payload.params.keyword;
+                }
+                return res;
+            });
+            return { ...state,list:updateState, error: ''};
         default:return {...state}
     }
 }
