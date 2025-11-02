@@ -138,12 +138,13 @@ class ProductsView extends React.Component{
                 accessor: "keyword",
                 Cell: props => {
                     const isEditing = this.state.editingKeywordId === props.original.id;
-                    
+                    const keyword = props.value;
+            
                     return (
                         <div>
                             {isEditing ? (
                                 <EditableKeyword
-                                    initialValue={props.value}
+                                    initialValue={keyword || ""} // Truyền giá trị ban đầu, có thể là rỗng
                                     onSave={(value) => this.saveKeyword(props.original.id, value)}
                                     onCancel={() => this.cancelEdit()}
                                 />
@@ -151,8 +152,9 @@ class ProductsView extends React.Component{
                                 <p
                                     className="list-item-heading"
                                     onClick={() => this.startEditingKeyword(props.original)}
+                                    style={{ cursor: "pointer", color: keyword ? "inherit" : "#999" }} // Thay đổi màu nếu từ khóa rỗng
                                 >
-                                    {props.value}
+                                    {keyword || "Nhấp để thêm từ khóa"} {/* Hiển thị nhắc nhở nếu từ khóa rỗng */}
                                 </p>
                             )}
                         </div>
